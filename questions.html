@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Questions Display</title>
+    <style>
+        :root {
+            --primary: #3a86ff;
+            --secondary: #8338ec;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #06d6a0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            background: #f5f7ff;
+            color: #2b2d42;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        @font-face {
+  font-family: 'Kalpurush';
+  src: url('fonts/Kalpurush.ttf') format('opentype');
+}
+        header {
+            text-align: center;
+            margin: 30px 0;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        #questions-container {
+            margin: 30px 0;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: black ;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-3px);
+            box-shadow: black;
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 5px;
+            background: black;
+            border-radius: 10px 0 0 10px;
+        }
+        
+        .question-text {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-family: Kalpurush;
+            font-size: 25px;
+        }
+        
+        .question-meta {
+            display: flex;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .question-date {
+            display: flex;
+            align-items: center;
+            font-size: 8px;
+        }
+        
+        .question-date i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Daily Questions Bur</h1>
+        <p>new Questions bur nije nije ahi jabo sbeet t add korilei</p>
+    </header>
+    
+    <div id="questions-container">
+        <div class="loading">
+            <div class="spinner"></div>
+            Loading questions...
+        </div>
+    </div>
+    
+    <footer>
+        <p>COPYRIGHT 2025 ©RKB DIGITAL</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Your Google Sheet ID (from the template)
+        const sheetId = '1cB8Bt2Mg2ddbJv_LPTiiMIl2NLKSHvbGa9sv8dVL21w';
+        
+        // Using the opensheet.elk.sh service (no API key needed)
+        fetch(`https://opensheet.elk.sh/${sheetId}/Sheet1`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('questions-container');
+                container.innerHTML = '';
+                
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="loading">No questions found</div>';
+                    return;
+                }
+                
+                // Process and display questions (newest first)
+                data
+                    .filter(row => row.Question) // Only rows with questions
+                    .sort((a,b) => new Date(b.Date) - new Date(a.Date)) // Sort by date
+                    .forEach(row => {
+                        const card = document.createElement('div');
+                        card.className = 'question-card';
+                        
+                        // Format date nicely
+                        let dateHtml = '';
+                        if (row.Date) {
+                            const date = new Date(row.Date);
+                            dateHtml = `
+                                <div class="question-meta">
+                                    <div class="question-date">
+                                        <i>📅</i>
+                                        ${date.toLocaleDateString('en-US', { 
+                                            weekday: 'long', 
+                                            year: 'numeric', 
+                                            month: 'long', 
+                                            day: 'numeric' 
+                                        })}
+                                    </div>
+                                </div>
+                            `;
+                        }
+                        
+                        card.innerHTML = `
+                            <div class="question-text">${row.Question}</div>
+                            ${dateHtml}
+                        `;
+                        
+                        container.appendChild(card);
+                    });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('questions-container').innerHTML = `
+                    <div class="loading">
+                        <p>Error loading questions</p>
+                        <p>Please check your internet connection and refresh</p>
+                        <p><small>${error.message}</small></p>
+                    </div>
+                `;
+            });
+    });
+    </script>
+</body>
+</html>

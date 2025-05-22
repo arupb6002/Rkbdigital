@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.5;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            padding: 0;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .notification-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .notification-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .notification-message {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray);
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0,0,0,0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 600px) {
+            .notification-header {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+<i class="fas fa-bell" style="font-size: 30px;"></i>
+        <h1>Notifications</h1>
+    </header>
+    
+    <div class="container">
+        <div id="notification-container" class="notification-container">
+            <div class="loading">
+                <div class="spinner"></div>
+                Loading notifications...
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sheetId = '1CLojuGmHi8EXICW3GUOmeIHK1XnLXHqTIZtOZ_wEV84';
+    const container = document.getElementById('notification-container');
+    
+    fetch(`https://opensheet.elk.sh/${sheetId}/Sheet1`)
+        .then(response => response.json())
+        .then(data => {
+            // Debug: Check what data is received
+            console.log("Received Data:", data);
+            
+            if (!data || data.length === 0) {
+                container.innerHTML = '<div class="loading">No data received from sheet</div>';
+                return;
+            }
+
+            // Case-insensitive header matching
+            const firstRow = data[0];
+            const getCol = (name) => 
+                Object.keys(firstRow).find(key => key.toLowerCase() === name.toLowerCase());
+            
+            const dateCol = getCol('date');
+            const timeCol = getCol('time');
+            const titleCol = getCol('title');
+            const notifCol = getCol('notification');
+
+            if (!dateCol || !titleCol || !notifCol) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p>Column headers not found</p>
+                        <p>Required columns: Date, Title, Notification</p>
+                        <p>Found columns: ${Object.keys(firstRow).join(', ')}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const notifications = data.slice(1) // Skip header
+                .filter(row => row[titleCol] && row[notifCol]);
+            
+            if (notifications.length === 0) {
+                container.innerHTML = `
+                    <div class="loading">
+                        <p>No notifications found</p>
+                        <p>Please add data in Row 2</p>
+                        <p>Format: Date | Time | Title | Notification</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            notifications.forEach(row => {
+                const card = document.createElement('div');
+                card.className = 'notification-card';
+                card.innerHTML = `
+                    <div class="notification-header">
+                        <span>${row[dateCol] || ''}</span>
+                        <span>${row[timeCol] || ''}</span>
+                    </div>
+                    <div class="notification-title">${row[titleCol]}</div>
+                    <div class="notification-message">${row[notifCol]}</div>
+                `;
+                container.appendChild(card);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            container.innerHTML = `
+                <div class="loading">
+                    <p>Error loading notifications</p>
+                    <p>${error.message}</p>
+                    <p>Check console (F12) for details</p>
+                </div>
+            `;
+        });
+});
+</script>
+</body>
+</html>
