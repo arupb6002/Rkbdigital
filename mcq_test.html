@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>MCQ Test</title>
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+            line-height: 1.6;
+            color: var(--dark-color);
+        }
+        @font-face {
+            font-family: 'Nexabold';
+            src: url('fonts/NexaBold.otf') format('opentype');
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .form-container:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+        }
+        
+        h1 {
+            color: black;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-family: NexaBold;
+            font-size: 30px;
+        }
+        p {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: Nexabold;
+            font-size: 15px;
+            background: linear-gradient(135deg, #c70039, #FF0000);
+            border-radius: 5px;
+            padding: 3px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .question {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .unanswered {
+            border-left: 3px solid #f72585;
+            padding-left: 10px;
+            background-color: rgba(247, 37, 133, 0.05);
+        }
+        
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--dark-color);
+        }
+        
+        .options {
+            margin-left: 5px;
+        }
+        
+        .option {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
+        }
+        
+        .option label {
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+            flex-grow: 1;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        #loading {
+            display: none;
+            margin: 20px 0;
+            color: var(--primary-color);
+            font-weight: 500;
+            text-align: center;
+        }
+        
+        #email-status {
+            margin: 20px 0;
+            font-weight: 500;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .success {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: #006d77;
+            border: 1px solid rgba(76, 201, 240, 0.3);
+        }
+        
+        .error {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: #9e0059;
+            border: 1px solid rgba(247, 37, 133, 0.3);
+        }
+        .fa {
+            margin-left: 140px;
+            height: 20px;
+            width: 20px;
+            position: centre;
+            size: 20px;
+        }
+        #test-results {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        #test-results h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .result-item {
+            margin-bottom: 12px;
+            display: flex;
+        }
+        
+        .result-label {
+            font-weight: 500;
+            min-width: 150px;
+            color: var(--dark-color);
+        }
+        
+        .progress-container {
+            margin: 25px 0;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 20px 0;
+            color: var(--primary-color);
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            .copyright {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 13px;
+                font-family:NexaBold;
+                line-height: 1.6;
+            }
+            .form-container {
+                padding: 20px;
+            }
+            
+            .result-item {
+                flex-direction: column;
+            }
+            
+            .result-label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <i class="fa fa-graduation-cap"></i>
+        <h1>RKB MOCK TEST 2025</h1>
+        <p>⚠️Test tu 2 hours r bhitorot hekh koribo<br>So Best Of Luck</p>
+        
+        <div id="user-info">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Mobile Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <button type="button" onclick="startTest()">Start Test</button>
+        </div>
+        
+        <div id="test-questions" class="hidden">
+            <form id="mcq-form">
+                <!-- Questions will be loaded here dynamically -->
+            </form>
+            
+            <button type="button" onclick="submitTest()">Submit Test</button>
+            <div id="loading"></div>
+            <div id="email-status"></div>
+        </div>
+        
+        <div id="test-results" class="hidden"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <div class="copyright">
+        <h>COPYRIGHT 2025 ©RKB DIGITAL</h>
+    </div>
+    
+    <script>
+        // Initialize MailJS
+        emailjs.init('BPl4WekWAGX8AzDXB');
+        
+        // Variables to store questions and answers
+        let questions = [];
+        let correctAnswers = [];
+        
+        // Load questions from questions.txt
+        async function loadQuestions() {
+            try {
+                const response = await fetch('questions.txt');
+                if (!response.ok) throw new Error('Failed to load questions');
+                
+                const text = await response.text();
+                questions = text.trim().split('\n').map(line => {
+                    const parts = line.split('|');
+                    return {
+                        question: parts[0],
+                        options: parts.slice(1, 5) // Get first 4 options
+                    };
+                });
+                
+                return true;
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                alert('Error loading questions. Please try again later.');
+                return false;
+            }
+        }
+        
+        // Load correct answers from answers.txt
+        async function loadAnswers() {
+            try {
+                const response = await fetch('answers.txt');
+                if (!response.ok) throw new Error('Failed to load answers');
+                
+                const text = await response.text();
+                correctAnswers = text.trim().split('\n').map(answer => parseInt(answer.trim()));
+                
+                // Validate we have enough answers
+                if (correctAnswers.length < questions.length) {
+                    throw new Error('Not enough answers in answers.txt');
+                }
+                return true;
+            } catch (error) {
+                console.error('Error loading answers:', error);
+                alert('Error loading answer key. Please try again later.');
+                return false;
+            }
+        }
+
+        // Start the test
+        async function startTest() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (!name || !email || !phone) {
+                alert("Please fill in all fields");
+                return;
+            }
+            
+            // Load questions and answers
+            const questionsLoaded = await loadQuestions();
+            if (!questionsLoaded) return;
+            
+            const answersLoaded = await loadAnswers();
+            if (!answersLoaded) return;
+            
+            // Generate the test questions
+            const form = document.getElementById('mcq-form');
+            form.innerHTML = '';
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                
+                const questionText = document.createElement('div');
+                questionText.className = 'question-text';
+                questionText.textContent = `${index + 1}. ${q.question}`;
+                questionDiv.appendChild(questionText);
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'options';
+                
+                q.options.forEach((option, optIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = `question-${index}`;
+                    radio.id = `question-${index}-option-${optIndex}`;
+                    radio.value = optIndex;
+                    radio.required = true; // Make each radio button required
+                    
+                    // Add event listener to remove unanswered styling when selected
+                    radio.addEventListener('change', function() {
+                        questionDiv.classList.remove('unanswered');
+                    });
+                    
+                    const label = document.createElement('label');
+                    label.htmlFor = `question-${index}-option-${optIndex}`;
+                    label.textContent = option;
+                    
+                    optionDiv.appendChild(radio);
+                    optionDiv.appendChild(label);
+                    optionsDiv.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+                form.appendChild(questionDiv);
+            });
+            
+            document.getElementById('user-info').classList.add('hidden');
+            document.getElementById('test-questions').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Validate all questions are answered
+        function validateAllQuestions() {
+            const questionElements = document.querySelectorAll('.question');
+            let allAnswered = true;
+            
+            questionElements.forEach((question, index) => {
+                const selectedOption = question.querySelector(`input[name="question-${index}"]:checked`);
+                if (!selectedOption) {
+                    allAnswered = false;
+                    question.classList.add('unanswered');
+                }
+            });
+            
+            if (!allAnswered) {
+                alert("Please answer all questions before submitting!");
+                // Scroll to first unanswered question
+                const firstUnanswered = document.querySelector('.unanswered');
+                if (firstUnanswered) {
+                    firstUnanswered.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+            
+            return allAnswered;
+        }
+
+        // Submit the test
+        async function submitTest() {
+            // First validate all questions are answered
+            if (!validateAllQuestions()) {
+                return;
+            }
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const submissionTime = new Date().toLocaleString();
+            
+            let correct = 0;
+            let wrong = 0;
+            const correctQuestions = [];
+            const wrongQuestions = [];
+            
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question-${index}"]:checked`);
+                const correctAnswer = correctAnswers[index];
+                
+                if (parseInt(selectedOption.value) === correctAnswer - 1) { // Modified for 1-based to 0-based conversion
+                    correct++;
+                    correctQuestions.push(index + 1);
+                } else {
+                    wrong++;
+                    wrongQuestions.push(index + 1);
+                }
+            });
+            
+            const totalQuestions = questions.length;
+            const scorePercentage = Math.round((correct / totalQuestions) * 100);
+            
+            const emailContent = `
+                <h3 style="color: #4361ee;">MCQ Test Results</h3>
+                <p><strong style="color: #212529;">Student Name:</strong> ${name}</p>
+                <p><strong style="color: #212529;">Email:</strong> ${email}</p>
+                <p><strong style="color: #212529;">Phone:</strong> ${phone}</p>
+                <p><strong style="color: #212529;">Submission Time:</strong> ${submissionTime}</p>
+                <hr style="border: 0; height: 1px; background: #e9ecef; margin: 20px 0;">
+                <h4 style="color: #4361ee; margin-bottom: 15px;">Performance Summary</h4>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span style="font-weight: 500;">Score:</span>
+                        <span style="font-weight: 600; color: #4361ee;">${scorePercentage}%</span>
+                    </div>
+                    <div style="height: 10px; background: #e9ecef; border-radius: 5px; overflow: hidden;">
+                        <div style="height: 100%; width: ${scorePercentage}%; background: #4361ee;"></div>
+                    </div>
+                </div>
+                <p><strong style="color: #212529;">Total Questions:</strong> ${totalQuestions}</p>
+                <p><strong style="color: #4cc9f0;">Correct Answers:</strong> ${correct} (Questions: ${correctQuestions.join(', ')})</p>
+                <p><strong style="color: #f72585;">Wrong Answers:</strong> ${wrong} (Questions: ${wrongQuestions.join(', ')})</p>
+                <hr style="border: 0; height: 1px; background: #e9ecef; margin: 20px 0;">
+                <p style="color: #6c757d;">This test was submitted through the MCQ Test System</p>
+            `;
+            
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('loading').textContent = 'Sending results...';
+            
+            try {
+                await emailjs.send(
+                    'service_3s7qqzj',
+                    'template_3d7b4hg', 
+                    {
+                        to_name: 'Test Administrator',
+                        to_email: 'your-email@example.com',
+                        from_name: name,
+                        from_email: email,
+                        subject: `MCQ Test Results - ${name} (Score: ${scorePercentage}%)`,
+                        message: emailContent,
+                        submission_time: submissionTime
+                    }
+                );
+                
+                showResults(name, email, phone, correct, wrong, correctQuestions, wrongQuestions, submissionTime, totalQuestions);
+                
+                const status = document.getElementById('email-status');
+                status.textContent = 'Results emailed successfully!';
+                status.className = 'success';
+                
+            } catch (error) {
+                console.error('Email sending failed:', error);
+                showResults(name, email, phone, correct, wrong, correctQuestions, wrongQuestions, submissionTime, totalQuestions);
+                
+                const status = document.getElementById('email-status');
+                status.textContent = 'Results saved but email failed. Please contact administrator.';
+                status.className = 'error';
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function showResults(name, email, phone, correct, wrong, correctQuestions, wrongQuestions, submissionTime, totalQuestions) {
+            const resultsDiv = document.getElementById('test-results');
+            const scorePercentage = Math.round((correct / totalQuestions) * 100);
+            
+            resultsDiv.innerHTML = `
+                <h2>Test Results</h2>
+                
+                <div class="result-item">
+                    <span class="result-label">Name:</span>
+                    <span>${name}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Email:</span>
+                    <span>${email}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Phone:</span>
+                    <span>${phone}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Submitted at:</span>
+                    <span>${submissionTime}</span>
+                </div>
+                
+                <div class="score-display">
+                    Your Score: ${scorePercentage}%
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: ${scorePercentage}%"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                        <span>0%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label">Total Questions:</span>
+                    <span>${totalQuestions}</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label" style="color: #4cc9f0;">Correct Answers:</span>
+                    <span>${correct} (Questions: ${correctQuestions.join(', ')})</span>
+                </div>
+                
+                <div class="result-item">
+                    <span class="result-label" style="color: #f72585;">Wrong Answers:</span>
+                    <span>${wrong} (Questions: ${wrongQuestions.join(', ')})</span>
+                </div>
+            `;
+            
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
