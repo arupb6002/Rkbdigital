@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RKB eBook Store</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --light: #f5f5f5;
+            --dark: #333;
+            --white: #fff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        @font-face {
+  font-family: 'Kalpurush';
+  src: url('fonts/Kalpurush.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Nexabold';
+  src: url('fonts/NexaBold.otf') format('opentype');
+}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .section-header h1 {
+            font-size: 100px;
+            color: var(--secondary);
+            margin-bottom: 15px;
+            font-weight: 550;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: fadeInDown 1s ease;
+          
+        }
+        
+      
+        .section-header p {
+          font-family: Kalpurush;
+          color: navy;
+        }
+          
+        .ebook-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .ebook-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .ebook-card:nth-child(1) { animation-delay: 0.2s; }
+        .ebook-card:nth-child(2) { animation-delay: 0.4s; }
+        .ebook-card:nth-child(3) { animation-delay: 0.6s; }
+        
+        .ebook-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .ebook-cover {
+            width: 100%;
+            height: 0;
+            padding-bottom: 133.33%; /* 3:4 aspect ratio */
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ebook-cover img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .ebook-card:hover .ebook-cover img {
+            transform: scale(1.05);
+        }
+        
+        .ebook-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .ebook-details {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .ebook-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+        
+        .ebook-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .ebook-meta i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+        
+        .ebook-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        
+        .buy-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--success);
+            color: var(--white);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .buy-btn:hover {
+            background-color: #2ecc71;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+        }
+        
+        .legal-notice {
+            margin-top: 60px;
+            padding: 25px;
+            background-color: var(--white);
+            border-left: 4px solid var(--accent);
+            border-radius: 5px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            box-shadow: var(--shadow);
+            animation: fadeInUp 0.8s ease;
+        }
+        .legal-notice h1 {
+          font-size: 18px;
+          color: red;
+          text-align: right;
+          font-family: NexaBold;
+        }
+        .legal-notice strong {
+            color: var(--accent);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            animation: fadeIn 1s ease;
+        }
+        
+        .footer::before {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 0 auto 20px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-header h1 {
+                font-size: 2rem;
+            }
+            
+            .ebook-section {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 15px;
+            }
+            
+            .ebook-section {
+                grid-template-columns: 1fr;
+            }
+            /*whatsapp folating icon eyat*/
+             .float-whatsapp {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: #25D366;
+        color: #fff;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        animation: pulse 1.5s infinite;
+        transition: all 0.3s ease;
+    }
+    
+    .float-whatsapp:hover {
+        background: #128C7E;
+        transform: scale(1.1);
+    }
+    
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+        70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+    
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section-header">
+            <h1><i class="fas fa-book-open"></i><br>RKB DIGITAL ACADEMY EBOOK SECTION</h1><p>আৰ কে বি ৰ দ্বাৰা প্ৰস্তুত ই বুক খন ক্ৰয় কৰিবলৈ তলৰ BUY NOW বুতাম তোত ক্লিক কৰক</p>
+        </div>
+        
+        <div class="ebook-section">
+            <!-- eBook 1 -->
+            <div class="ebook-card">
+                <div class="ebook-cover">
+                    <span class="ebook-badge">Bestseller</span>
+                    <img src="https://i.ibb.co/KjXf4y5g/FB-IMG-1747971887091.jpg" alt="My Ebook 2 Cover">
+                </div>
+                <div class="ebook-details">
+                    <h3 class="ebook-title">My Ebook 2</h3>
+                    <div class="ebook-meta">
+                        <span><i class="fas fa-file-alt"></i> 120 Pages</span>
+                        <span><i class="fas fa-download"></i> PDF</span>
+                    </div>
+                    <div class="ebook-price">199/-</div>
+                    <a href="https://wa.me/+916002148763" class="buy-btn">
+                        <i class="fas fa-shopping-cart"></i> BUY NOW
+                    </a>
+                </div>
+            </div>
+            
+            <!-- eBook 2 -->
+            <div class="ebook-card">
+                <div class="ebook-cover">
+                    <img src="https://i.ibb.co/KjXf4y5g/FB-IMG-1747971887091.jpg" alt="My Ebook 2 Cover">
+                </div>
+                <div class="ebook-details">
+                    <h3 class="ebook-title">My Ebook 2</h3>
+                    <div class="ebook-meta">
+                        <span><i class="fas fa-file-alt"></i> 120 Pages</span>
+                        <span><i class="fas fa-download"></i> PDF</span>
+                    </div>
+                    <div class="ebook-price">199/-</div>
+                    <a href="https://wa.me/+916002148763" class="buy-btn">
+                        <i class="fas fa-shopping-cart"></i> BUY NOW
+                    </a>
+                </div>
+            </div>
+
+        <div class="legal-notice">
+            <strong><i class="fas fa-exclamation-triangle"></i> Important Notice:</strong> Republishing or modifying these eBooks in any form is strictly prohibited without prior permission. Unauthorized use will result in legal action.<h1>-- TEAM RKB</h1>
+        </div>
+        <a href="https://wa.me/+916002189078" class="float-whatsapp" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+        <div class="footer">
+          COPYRIGHT 2025 ©RKB DIGITAL
+        </div>
+    </div>
+</body>
+</html>
