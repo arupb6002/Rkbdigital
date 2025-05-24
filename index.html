@@ -63,20 +63,26 @@
             color: white;
             border-radius: 30px;
         }
+        
         .regards {
-          text-decoration: none;
-          font-size: 16px;
+            text-decoration: none;
+            font-size: 16px;
         }
+        
         .regards a {
-          text-decoration: none;
-          font-size: 16px;
-          color: white;
+            text-decoration: none;
+            font-size: 16px;
+            color: white;
         }
-     
         
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Hide the audio button by default */
+        #enableAudioBtn {
+            display: none;
         }
     </style>
 </head>
@@ -95,7 +101,7 @@
         <p>The website will be back online on <strong>24th May 2025 at 2:30 PM</strong>.</p>
         
         <div class="regards">
-          Regards,<br><a href="https://borahdigitalsolutions.rf.gd"><strong>Devlopment Team</strong>
+            Regards,<br><a href="https://borahdigitalsolutions.rf.gd"><strong>Devlopment Team</strong></a>
         </div>
         
         <div>
@@ -103,37 +109,40 @@
                 <i class="fas fa-exclamation-triangle"></i> Emergency?
             </a>
         </div>
+        
+        <!-- Fallback button (hidden unless autoplay fails) -->
+        <button id="enableAudioBtn" class="btn">
+            <i class="fas fa-volume-up"></i> Click to Enable Background Music
+        </button>
     </div>
     
-    <!-- Background Audio with improved implementation -->
-    <audio id="bgAudio" autoplay loop>
+    <!-- Background Audio (Hidden) -->
+    <audio id="bgAudio" loop>
         <source src="https://files.catbox.moe/4oivb1.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
     </audio>
     
     <script>
-        // Force audio playback on page load
+        // Try to autoplay immediately
         document.addEventListener('DOMContentLoaded', function() {
             var audio = document.getElementById('bgAudio');
+            var enableAudioBtn = document.getElementById('enableAudioBtn');
             
-            // Modern browsers require user interaction first, but we'll try to autoplay
-            audio.volume = 0.5; // Set volume to 50% to be less intrusive
+            // Set volume to 50% (less intrusive)
+            audio.volume = 0.5;
             
+            // Try to autoplay (may fail due to browser restrictions)
             var playPromise = audio.play();
             
-            // Handle autoplay restrictions
             if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    // Show a button to allow users to start audio if autoplay is blocked
-                    var audioBtn = document.createElement('button');
-                    audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> Click to Enable Background Music';
-                    audioBtn.className = 'btn';
-                    audioBtn.style.marginTop = '20px';
-                    audioBtn.onclick = function() {
+                playPromise.catch(function(error) {
+                    // Autoplay failed, show the button
+                    enableAudioBtn.style.display = 'inline-block';
+                    
+                    // When clicked, try to play again
+                    enableAudioBtn.addEventListener('click', function() {
                         audio.play();
-                        this.style.display = 'none';
-                    };
-                    document.querySelector('.container').appendChild(audioBtn);
+                        enableAudioBtn.style.display = 'none';
+                    });
                 });
             }
         });
