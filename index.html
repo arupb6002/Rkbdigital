@@ -68,10 +68,10 @@
           font-size: 16px;
         }
         .regards a {
-  text-decoration: none;
-  font-size: 16px;
-  color: white;
-}
+          text-decoration: none;
+          font-size: 16px;
+          color: white;
+        }
      
         
         @keyframes spin {
@@ -94,21 +94,49 @@
         
         <p>The website will be back online on <strong>24th May 2025 at 2:30 PM</strong>.</p>
         
-<div class="regards">
+        <div class="regards">
           Regards,<br><a href="https://borahdigitalsolutions.rf.gd"><strong>Devlopment Team</strong>
-</div>
+        </div>
+        
         <div>
             <a href="https://wa.me/+916002148763" class="btn emergency-btn">
                 <i class="fas fa-exclamation-triangle"></i> Emergency?
             </a>
         </div>
-        
-           <!-- Background Audio -->
-  <audio autoplay loop>
-    <source src="https://files.catbox.moe/4oivb1.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-      
     </div>
+    
+    <!-- Background Audio with improved implementation -->
+    <audio id="bgAudio" autoplay loop>
+        <source src="https://files.catbox.moe/4oivb1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <script>
+        // Force audio playback on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            var audio = document.getElementById('bgAudio');
+            
+            // Modern browsers require user interaction first, but we'll try to autoplay
+            audio.volume = 0.5; // Set volume to 50% to be less intrusive
+            
+            var playPromise = audio.play();
+            
+            // Handle autoplay restrictions
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    // Show a button to allow users to start audio if autoplay is blocked
+                    var audioBtn = document.createElement('button');
+                    audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> Click to Enable Background Music';
+                    audioBtn.className = 'btn';
+                    audioBtn.style.marginTop = '20px';
+                    audioBtn.onclick = function() {
+                        audio.play();
+                        this.style.display = 'none';
+                    };
+                    document.querySelector('.container').appendChild(audioBtn);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
