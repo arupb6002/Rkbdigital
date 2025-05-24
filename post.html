@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details - RKB DIGITAL ACADEMY</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #2980b9;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--light-color);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--secondary-color);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .post-detail {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .post-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            line-height: 1.3;
+        }
+
+        .post-meta {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .post-meta::before {
+            content: "📅";
+            margin-right: 8px;
+        }
+
+        .post-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .post-content {
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .post-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: var(--dark-color);
+            color: white;
+            margin-top: 3rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .error-message {
+            background: #ffeeee;
+            padding: 1.5rem;
+            border-radius: 8px;
+            color: var(--accent-color);
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 0.5rem;
+            }
+            
+            .post-detail {
+                padding: 1.5rem;
+            }
+                        .fotor {
+              font-size: 12px;
+              text-decoration: none;
+            }
+            .fotor a {
+              text-decoration:none;
+              color: white;
+              
+            }
+            .post-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>RKB DIGITAL ACADEMY</h1>
+            <p class="tagline">জয় আই অসম</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="dailypost.html" class="back-button">
+                ← Back to All Posts
+            </a>
+            <article id="post-detail" class="post-detail">
+                <div class="loading">Loading post details...</div>
+            </article>
+        </div>
+    </main>
+
+        <footer class="fotor">
+        <p>COPYRIGHT 2025 ©RKB DIGITAL ACADEMY<br><a href="borahdigitalsolutions.rf.gd"</a>Designed By Borah Digital Solutions</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+            const sheetId = urlParams.get('sheet') || '1V4pmqpnis8nw6INchwhXyj3kZz34bGd5da2_L9E9MEQ';
+            
+            if (postId) {
+                loadPostDetails(postId, sheetId);
+            } else {
+                showError("Post ID not specified");
+            }
+        });
+
+        async function loadPostDetails(postId, sheetId) {
+            try {
+                const response = await fetch(`https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const data = await response.text();
+                const json = JSON.parse(data.substr(47).slice(0, -2));
+                const posts = parseSheetData(json);
+                const post = posts.find(p => p.ID == postId);
+                
+                if (post) {
+                    displayPost(post);
+                } else {
+                    showError("Post not found");
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError("Error loading post. Please try again later.");
+            }
+        }
+
+        function parseSheetData(data) {
+            const cols = data.table.cols;
+            const rows = data.table.rows;
+            const headers = cols.map(col => col.label);
+            
+            return rows.map(row => {
+                const post = {};
+                row.c.forEach((cell, index) => {
+                    post[headers[index]] = cell ? cell.v : '';
+                });
+                return post;
+            });
+        }
+
+        function displayPost(post) {
+            const postDetail = document.getElementById('post-detail');
+            
+            let html = '';
+            
+            if (post.ImageURL) {
+                html += `<img src="${post.ImageURL}" alt="${post.Topic}" class="post-image" loading="lazy">`;
+            }
+            
+            html += `
+                <h1 class="post-title">${post.Topic || 'No title'}</h1>
+                <p class="post-meta">${post.DateTimeDay || 'No date'}</p>
+                <div class="post-content">
+                    ${formatContent(post.FullExplanation || post.ShortExplanation || 'No content available')}
+                </div>
+            `;
+            
+            postDetail.innerHTML = html;
+        }
+
+        function formatContent(text) {
+            if (!text) return '<p>No content available</p>';
+            
+            // Replace literal '\n' with HTML line breaks
+            const paragraphs = text.split(/\\n|\n/);
+            
+            return paragraphs
+                .filter(p => p.trim() !== '')
+                .map(p => `<p>${p}</p>`)
+                .join('');
+        }
+
+        function showError(message) {
+            const postDetail = document.getElementById('post-detail');
+            postDetail.innerHTML = `
+                <div class="error-message">
+                    <p>${message}</p>
+                    <p><a href="index.html">Return to homepage</a></p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
