@@ -94,7 +94,17 @@
         
         <h1>Maintenance Mode</h1>
         
-        <div class="time">5:00 AM - 2:30 PM</div>
+        <div class="time">5:00 AM - 3:30 PM</div>
+        <!-- Fallback button (hidden unless autoplay fails) -->
+        <button id="enableAudioBtn" class="btn">
+            <i class="fas fa-volume-up"></i> Click to Enable Background Music
+        </button>
+    </div>
+    
+    <!-- Background Audio (Hidden) -->
+    <audio id="bgAudio" loop>
+        <source src="https://files.catbox.moe/4oivb1.mp3" type="audio/mpeg">
+    </audio>
         
         <p>We're currently performing scheduled maintenance to improve your experience on RKB Digital.</p>
         
@@ -110,16 +120,7 @@
             </a>
         </div>
         
-        <!-- Fallback button (hidden unless autoplay fails) -->
-        <button id="enableAudioBtn" class="btn">
-            <i class="fas fa-volume-up"></i> Click to Enable Background Music
-        </button>
-    </div>
-    
-    <!-- Background Audio (Hidden) -->
-    <audio id="bgAudio" loop>
-        <source src="https://files.catbox.moe/4oivb1.mp3" type="audio/mpeg">
-    </audio>
+        
     
     <script>
         // Try to autoplay immediately
