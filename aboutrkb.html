@@ -4,293 +4,183 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About RKB Digital Academy</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-light: #CAF0F8;
-            --primary-medium: #90E0EF;
-            --primary-dark: #00B4D8;
-            --text-dark: #03045E;
-            --text-light: #f8f9fa;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            background-color: white;
-            color: var(--text-dark);
-            line-height: 1.7;
-        }
-        
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
-            color: white;
-            padding: 60px 0 80px;
-            text-align: center;
-            margin-bottom: -40px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            bottom: -50px;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: white;
-            transform: skewY(-3deg);
-            z-index: 1;
-        }
-        
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 15px;
-            font-weight: 700;
-            position: relative;
-            display: inline-block;
-        }
-        
-        h1::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: white;
-            border-radius: 2px;
-        }
-        
-        .tagline {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .about-card {
-            background-color: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            margin-bottom: 40px;
-            position: relative;
-            z-index: 2;
-            border: 1px solid rgba(0, 180, 216, 0.1);
-            font-family: Times New Roman;
-        }
-        
-        .about-content p {
-            margin-bottom: 25px;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            font-family: Times New Roman;
-        }
-        
-        .mission-box {
-            background-color: var(--primary-light);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 30px auto;
-            border-left: 5px solid var(--primary-dark);
-            position: relative;
-            overflow: hidden;
-            font-size: 12px;
-        }
-        
- 
-        .highlight {
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-        
-        .cta-box {
-            text-align: center;
-            background: linear-gradient(to right, var(--primary-dark), var(--primary-medium));
-            color: white;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 40px 0;
-            box-shadow: 0 5px 15px rgba(0, 180, 216, 0.3);
-        }
-        
-        .cta-text {
-            font-weight: 600;
-            font-size: 1.3rem;
-            margin: 0;
-        }
-        
-        .social-links {
-            text-align: center;
-            margin: 60px 0 40px;
-        }
-        
-        .social-links h3 {
-            color: var(--primary-dark);
-            margin-bottom: 25px;
-            font-weight: 600;
-            position: relative;
-        }
-        
-        .social-links h3::after {
-            content: "";
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background: var(--primary-dark);
-        }
-        
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        .social-icons a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            background-color: white;
-            color: var(--primary-dark);
-            border-radius: 50%;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border: 2px solid var(--primary-medium);
-            text-decoration: none;
-        }
-        
-        .social-icons a:hover {
-            background-color: var(--primary-dark);
-            color: white;
-            transform: translateY(-5px);
-        }
-        
-        .academy-logo {
-            text-align: center;
-            margin: -30px auto 40px;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .logo-circle {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--primary-dark), var(--primary-medium));
-            color: white;
-            border-radius: 50%;
-            font-size: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.3);
-            border: 5px solid white;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .tagline {
-                font-size: 1rem;
-            }
-            
-            .about-card {
-                padding: 25px;
-            }
-            
-            .social-icons {
-                gap: 15px;
-            }
-            
-            .social-icons a {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-            
-            .cta-text {
-                font-size: 1.1rem;
-            }
-            
-            .logo-circle {
-                width: 80px;
-                height: 80px;
-                font-size: 2rem;
-            }
-        .txt3 {
-          margin-top: 20px;
-          font-family: Times New Roman;
-        }
-          
-        }
-      
+    @font-face {
+  font-family: 'Hylia';
+  src: url('fonts/Hylia.otf') format('opentype');
+}
+@font-face {
+  font-family: 'flora';
+  src: url('fonts/FlorensaDemoRegular-lgrX0.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Kalpurush';
+  src: url('fonts/Kalpurush.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Nexabold';
+  src: url('fonts/NexaBold.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Bankgoth';
+  src: url('fonts/BankGthd.ttf') format('opentype');
+}
+
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.box {
+  background-color: #006400;
+  padding: 10px;
+  max-width: 100%;
+  height: 90px;
+  width: calc(100% - 0px);
+  box-sizing: border-box;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  padding-bottom: 20px;
+}
+.box h2 {
+  font-size: 24px;
+  color: white;
+  margin-top: 0px;
+  font-family: Hylia;
+  letter-spacing: 1.2;
+}
+.box p {
+  font-family: Kalpurush;
+  font-size: 18px;
+  margin-top: 8px;
+  color:#E0FFFF;
+}
+
+.box1 {
+  background-color: #4682B4;
+  padding: 10px;
+  width: 100%;
+  text-align: center;
+  font-family: Kalpurush;
+  margin: 0 auto 10px auto;
+  margin-top: -10px;
+  padding-bottom: 30px;
+}
+
+.box1 h3 {
+  color: white;
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-family: NexaBold;
+  margin-top: 30px;
+}
+
+.box1 p {
+  font-size: 15px;
+  color: white;
+  font-family: poppins;
+  line-height: 1.4;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.logo {
+  background: #006400;
+  text-align: center;
+}
+.fotor {
+  text-align: center;
+  font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: #708090;
+  color: white;
+}
+.divider1 {
+  width: 50%;
+  margin: 20px auto;
+  border: none;
+  height: 3px;
+  background: linear-gradient(45deg, #228B22, #00BFFF);
+  border-radius: 5px;
+}
+.founder {
+  background-color: #006400;
+  width: 90%;
+  border-radius: 10px;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  padding-top: 30px;
+  padding-bottom: 24px;
+}
+.founder h1 {
+  font-family: flora;
+  font-size: 24px;
+  margin-top: 3px;
+  color: white;
+}
+.founder h2 {
+  font-family: NexaBold;
+  font-size: 18px;
+  color: white;
+}
+.founder h3 {
+  font-family: Kalpurush;
+  font-size: 18px;
+  line-height: 1.6;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  color:white;
+  font-style: italic;
+}
+.founder-logo {
+  width: 140px;
+  height: 140px;
+  border-radius: 70px;
+  display: block;
+  margin: 0 auto 20px auto;
+}
     </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <h1>About RKB Digital Academy</h1>
-            <p class="tagline">Assam's Premier Online Learning Platform</p>
-        </div>
-    </header>
     
-    <div class="container">
-        <div class="academy-logo">
-            <div class="logo-circle">
-                <i class="fas fa-graduation-cap"></i>
-            </div>
-        </div>
-        
-        <div class="about-card">
-            <div class="about-content">
-                <p>RKB Digital Academy is Assam's premier online learning platform, dedicated to empowering students preparing for government and competitive examinations. Founded by education enthusiast Ruhini Kr Boruah, our mission is to make quality education accessible, affordable, and effective for every learner across the region.</p>
-                
-                <div class="mission-box">
-                    <p>We specialize in comprehensive preparation for Assam Direct Recruitment (ADRE), Assam Police, and other state-level exams through expertly curated MCQs, revision books, and interactive video lectures. Our exclusive <span class="highlight">"Grade III & IV Revise Book"</span> and high-yield question sets are trusted by thousands of aspirants for last-minute preparation and concept clarity.</p>
-                </div>
-                
-                <p>Through our strong presence on platforms like Facebook and YouTube, we stay connected with our student community by offering motivational content, exam tips, and the latest updates. RKB Digital Academy is not just an institute — it's a learning movement driven by dedication, discipline, and a passion for success.</p>
-                
-                <div class="cta-box">
-                    <p class="cta-text">Your dream job in government service starts here. Let RKB Digital Academy be your guide to success.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="social-links">
-            <h3>Connect With Us</h3>
-            <div class="social-icons">
-                <a href="https://www.facebook.com/share/12Kzvu9xFLx/" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://youtube.com/@ruhinikrboruah" title="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="https://wa.me/+916002189078" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <div class="txt3">COPYRIGHT 2025 ©RKB DIGITAL
-            </div>
-        </div>
-    </div>
-</body>
+<head>
+  <div>
+<div class="logo">
+  <img src="https://i.ibb.co/QjbZybCN/1748097891344.png" style="height:80px; width:80px;">
+</div>
+<div class="box">
+    <h2>RKB DIGITAL ACADEMY</h2>
+    <p>।। জয় আই অসম ।।</p>
+  </div>
+    <hr class="divider">
+      <hr class="divider">
+    <div class="box1">
+      <i class="fa-solid fa-person" style="font-size: 40px; color: white; padding-top:20px; margin-bottom:-20px"></i>
+    <h3>ABOUT RKB DIGITAL</h3>
+    <p>RKB Digital Academy is an Assamese online learning platform focused on competitive exam preparation like ADRE. We offer video lectures, MCQs, and revision materials to support students across Assam</p>
+  </div>
+    <hr class="divider">
+  <div class="box1">
+      <i class="fa-solid fa-seedling" style="font-size: 40px; color: white; padding-top:20px; margin-bottom:-20px"></i>
+    <h3>BEHIND RKB DIGITAL</h3>
+    <p>RKB Digital Academy was founded in 2023 by Ruhini Kr. Baruah with a vision to provide quality and accessible education to every student preparing for Assam’s government job exams.</p>
+  </div>
+      <hr class="divider1">
+      
+        <div class="founder">
+          <img src="https://i.ibb.co/TDb3fMnx/fx-gs.jpg" class="founder-logo">
+    <h2>A Message From Our</h2>
+    <h1>FOUNDER</h1>
+    <h4 style="font-weight: bold; font-style: italic; font-size:14px; text-align:right; margin-right:25px; margin-top:15px; color:white">--RUHINI KR. BARUAH</h4>
+    <h3>“ মই ৰোহিনী কুমাৰ বৰুৱা, আৰ কে বি ডিজিটেল একাডেমীৰ প্ৰতিষ্ঠাপক, মই মানে মই এইটো খুলিছিলো 2023 চনত চাগে। মুঠতে এইটো খোলা হৈছিল, আৰু এইখিনি কথা মই নিজে লিখা নাই , আমাৰ ৱেবচাইট মেনেজমেন্টত টিম এ ভাং খাই লিখিছে, গতিকে ক্ষমা কৰি দিব। এইটো পাছত মই নিজে লিখি আপডেট কৰিব দি দিম, তেওঁলোকে আপডেট কৰি দিব ”<br>“ ধন্যবাদ ”<br><h/3>
+      </div>
+      <hr class="divider1">
+<footer class="fotor"><strong>Copyright 2025 © RKB DIGITAL ACADEMY<strong></footer>
+</head>
 </html>
